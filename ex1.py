@@ -26,21 +26,34 @@ def sinal_am(t):
 
 t = vetor_tempos(fc, 200)
 
-plt.subplot(3, 1, 1)
-plt.plot(portadora(t), 'r')
+fft_vals = np.fft.fft(sinal_am(t))
+
+freqs = np.fft.fftfreq(len(t))
+freqs *= 2*10**7
+limit = 1.1*10**6
+mask = (freqs > -limit) == (freqs < limit)
+
+
+plt.subplot(4, 1, 1)
+plt.plot(t, portadora(t), 'r')
 plt.ylabel('Amplitude')
 plt.xlabel('Portadora')
 
-plt.subplot(3, 1, 2)
-plt.plot(moduladora(t), 'g')
+plt.subplot(4, 1, 2)
+plt.plot(t, moduladora(t), 'g')
 plt.ylabel('Amplitude')
 plt.xlabel('Moduladora')
 
-plt.subplot(3, 1, 3)
-plt.plot(sinal_am(t), 'b')
+plt.subplot(4, 1, 3)
+plt.plot(t, sinal_am(t), 'b')
 plt.ylabel('Amplitude')
 plt.xlabel('Sinal AM')
 
-# plt.plot(t, portadora(t), color='red')
+plt.subplot(4, 1, 4)
+plt.plot()
+plt.plot(freqs[mask], fft_vals[mask], 'b')
+plt.ylabel('Amplitude')
+plt.xlabel('Sinal AM')
+
 plt.subplots_adjust(hspace=1)
 plt.show()
